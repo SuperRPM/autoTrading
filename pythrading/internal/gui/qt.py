@@ -9,9 +9,11 @@ form_class = uic.loadUiType("/Users/isang-yong/Desktop/mywindow.ui")[0]
 
 class MySignal(QObject):
     signal1 = pyqtSignal(str)
+    signal2 = pyqtSignal(int, int)
 
     def run(self):
         self.signal1.emit("hello world")
+        self.signal2.emit(1, 2)
 
 class MyWindow(QMainWindow, form_class):
     def __init__(self):
@@ -28,6 +30,7 @@ class MyWindow(QMainWindow, form_class):
 
         mysignal = MySignal()
         mysignal.signal1.connect(self.signal1_emitted)
+        mysignal.signal2.connect(self.signal2_emitted)
         mysignal.run()
 
     def inquiry(self):
@@ -50,3 +53,7 @@ class MyWindow(QMainWindow, form_class):
     @pyqtSlot()
     def signal1_emitted(self):
         print("signal1_emitted")
+
+    @pyqtSlot(int, int)
+    def signal2_emitted(self, a, b):
+        print("signal2_emitted", a, b)
